@@ -1,6 +1,6 @@
 name: "Casa Bot"
 description: "An LLM enabled bot to interact with Home Assitant's MCP server"
-version: "1.0.0"
+version: "0.1.0"
 slug: "casa_bot"
 init: false
 arch:
@@ -12,3 +12,4 @@ arch:
 startup: services
 ports:
   8000/tcp: 8000
+image: "ghcr.io/jmservera/{arch}-addon-casa_bot"
