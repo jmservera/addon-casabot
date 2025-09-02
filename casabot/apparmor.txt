@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile casa_bot flags=(attach_disconnected,mediate_deleted) {
+profile casabot flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   # Capabilities
