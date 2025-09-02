@@ -3,8 +3,11 @@ using CasaBot.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure to listen on port 8000
-builder.WebHost.UseUrls("http://0.0.0.0:8000");
+// Configure to listen on port 8000 by default, but allow override via environment
+if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ASPNETCORE_URLS")))
+{
+    builder.WebHost.UseUrls("http://0.0.0.0:8000");
+}
 
 // Configure forwarded headers for reverse proxy
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
