@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start CasaBot application
+# ==============================================================================
+
+# Wait for nginx to be ready
+sleep 2
+
+bashio::log.info "Starting CasaBot application..."
+
+cd /opt/casabot
+exec ./CasaBot --urls "http://0.0.0.0:8000"

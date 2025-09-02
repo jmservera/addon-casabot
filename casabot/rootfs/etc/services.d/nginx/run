@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start nginx reverse proxy
+# ==============================================================================
+
+bashio::log.info "Starting nginx..."
+
+# Create nginx directories if they don't exist
+mkdir -p /var/lib/nginx/tmp/client_body
+mkdir -p /var/lib/nginx/tmp/proxy
+mkdir -p /var/lib/nginx/tmp/fastcgi
+mkdir -p /var/lib/nginx/tmp/uwsgi
+mkdir -p /var/lib/nginx/tmp/scgi
+
+# Start nginx in foreground
+exec nginx -g "daemon off;"
