@@ -11,9 +11,9 @@ WORKDIR /src
 # Copy source code
 COPY src/ ./
 
-RUN echo $TARGETPLATFORM > /platform.txt
+RUN echo $BUILD_ARCH > /platform.txt
 # Build application with appropriate runtime identifier
-RUN case "${TARGETPLATFORM}" in \
+RUN case "${BUILD_ARCH}" in \
       "amd64") \
         dotnet publish -c Release -r linux-musl-x64 -o /app/publish \
         ;; \
@@ -24,7 +24,7 @@ RUN case "${TARGETPLATFORM}" in \
         dotnet publish -c Release -r linux-musl-arm -o /app/publish \
         ;; \
       *) \
-        echo "Unsupported architecture: ${TARGETPLATFORM}" && exit 1 \
+        echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1 \
         ;; \
     esac
 
