@@ -1,19 +1,19 @@
-ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.15
+ARG BUILD_FROM
 
 # Multi-arch build arguments
-ARG BUILD_ARCH=amd64
+ARG BUILD_ARCH
 
 # Build stage - use .NET SDK for compilation
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS builder
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS builder
 
-ARG BUILD_ARCH
 WORKDIR /src
 
 # Copy source code
 COPY src/casabot/ ./
 
+RUN echo $TARGETPLATFORM > /platform.txt
 # Build application with appropriate runtime identifier
-RUN case "${BUILD_ARCH}" in \
+RUN case "${TARGETPLATFORM}" in \
       "amd64") \
         dotnet publish -c Release -r linux-musl-x64 -o /app/publish \
         ;; \
@@ -24,7 +24,7 @@ RUN case "${BUILD_ARCH}" in \
         dotnet publish -c Release -r linux-musl-arm -o /app/publish \
         ;; \
       *) \
-        echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1 \
+        echo "Unsupported architecture: ${TARGETPLATFORM}" && exit 1 \
         ;; \
     esac
 
@@ -35,17 +35,10 @@ FROM $BUILD_FROM
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup base system
-ARG TEMPIO_VERSION="2021.09.0"
-RUN \
-    case "${BUILD_ARCH}" in \
-      "amd64") TEMPIO_ARCH="amd64" ;; \
-      "aarch64") TEMPIO_ARCH="aarch64" ;; \
-      "armv7") TEMPIO_ARCH="armv7" ;; \
-      *) echo "Unsupported architecture for tempio: ${BUILD_ARCH}" && exit 1 ;; \
-    esac && \
-    curl -L -s "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${TEMPIO_ARCH}" \
-        -o /usr/bin/tempio \
-    && chmod a+x /usr/bin/tempio
+# ARG TEMPIO_VERSION="2021.09.0"
+# RUN curl -L -s "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${TEMPIO_ARCH}" \
+#         -o /usr/bin/tempio \
+#     && chmod a+x /usr/bin/tempio
 
 # Install s6-overlay, nginx and .NET runtime
 RUN \
