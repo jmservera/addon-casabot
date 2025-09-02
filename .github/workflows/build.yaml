@@ -104,6 +104,8 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - run: ls casabot/rootfs
+
       - name: Build ${{ matrix.addon }} add-on
         if: steps.check.outputs.build_arch == 'true'
         uses: home-assistant/builder@2025.03.0
