@@ -1,40 +1,17 @@
 ARG BUILD_FROM
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
-
-# Set working directory
-WORKDIR /src
-
-# Copy project file and restore dependencies
-COPY *.csproj ./
-RUN dotnet restore
-
-# Copy source code
-COPY . ./
-
-# Build and publish the application
-RUN dotnet publish -c Release -o /app/publish --no-restore
-
-# Runtime stage
 FROM $BUILD_FROM
 
-# Install .NET runtime
+# Install requirements for add-on
 RUN \
   apk add --no-cache \
-    aspnetcore8-runtime \
-    dotnet8-runtime
+    python3
 
-# Set working directory
-WORKDIR /app
+# Python 3 HTTP Server serves the current working dir
+# So let's set it to our add-on persistent data directory.
+WORKDIR /data
 
-# Copy published application
-COPY --from=build /app/publish/ ./
+# Copy data for add-on
+COPY run.sh /
+RUN chmod a+x /run.sh
 
-# Expose port
-EXPOSE 8000
-
-# Set environment variables
-ENV ASPNETCORE_URLS=http://0.0.0.0:8000
-ENV ASPNETCORE_ENVIRONMENT=Production
-
-# Start the application
-CMD ["dotnet", "CasaBot.dll"]
+CMD [ "/run.sh" ]
