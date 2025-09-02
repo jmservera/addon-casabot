@@ -11,7 +11,7 @@ WORKDIR /src
 # Copy source code
 COPY src/ ./
 
-RUN echo $BUILD_ARCH > /platform.txt
+
 # Build application with appropriate runtime identifier
 RUN case "${BUILD_ARCH}" in \
       "amd64") \

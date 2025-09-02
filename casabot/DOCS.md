@@ -3,7 +3,7 @@
 ## Installation
 
 1. Navigate to **Supervisor** → **Add-on Store** in your Home Assistant interface
-2. Click the menu (⋮) in the top right corner  
+2. Click the menu (⋮) in the top right corner
 3. Select **Repositories**
 4. Add this repository URL: `https://github.com/jmservera/addon-casabot`
 5. Find "Casa Bot" in the add-on store and click **Install**
@@ -13,7 +13,7 @@
 Currently, the add-on works out of the box with minimal configuration required. Future versions will include configurable options for:
 
 - LLM provider settings
-- MCP server endpoints  
+- MCP server endpoints
 - Chat behavior customization
 
 ### Example Configuration
@@ -58,7 +58,7 @@ Home Assistant Ingress ──→ nginx (port 80) ──→ CasaBot (.NET app on 
 ### File Structure
 
 - `/opt/casabot/`: CasaBot application files
-- `/etc/nginx/`: nginx configuration  
+- `/etc/nginx/`: nginx configuration
 - `/etc/services.d/`: s6-overlay service definitions
 - `/data/`: Persistent add-on data
 
@@ -67,11 +67,13 @@ Home Assistant Ingress ──→ nginx (port 80) ──→ CasaBot (.NET app on 
 The add-on implements several security best practices:
 
 ### Process Isolation
+
 - **s6-overlay**: Proper process supervision and isolation
-- **Non-root execution**: Services run with minimal privileges  
+- **Non-root execution**: Services run with minimal privileges
 - **AppArmor profile**: Restricted filesystem and network access
 
 ### Network Security
+
 - **nginx reverse proxy**: Shields the application from direct exposure
 - **Ingress integration**: Leverages Home Assistant's authentication
 - **WebSocket security**: Proper upgrade handling for real-time features
@@ -79,6 +81,7 @@ The add-on implements several security best practices:
 ### Permissions Required
 
 The add-on requires these permissions:
+
 - **Network access**: To communicate with MCP servers
 - **Home Assistant API**: For smart home integrations (future feature)
 
@@ -131,8 +134,9 @@ For developers wanting to modify the CasaBot application:
 ## Changelog
 
 ### Version 0.1.5
+
 - **NEW**: s6-overlay process management
-- **NEW**: nginx reverse proxy integration  
+- **NEW**: nginx reverse proxy integration
 - **NEW**: Home Assistant ingress support
 - **IMPROVED**: Enhanced security with AppArmor profiles
 - **CHANGED**: Port configuration (now 8080 for direct access)
