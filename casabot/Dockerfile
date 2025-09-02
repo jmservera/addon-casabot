@@ -9,7 +9,7 @@ FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS builde
 WORKDIR /src
 
 # Copy source code
-COPY ./src/casabot/ ./
+COPY src/casabot/ ./
 
 RUN echo $TARGETPLATFORM > /platform.txt
 # Build application with appropriate runtime identifier
@@ -57,7 +57,7 @@ RUN \
 COPY --from=builder /app/publish /opt/casabot/
 
 # Copy nginx configuration and s6 services
-COPY ./casabot/rootfs/ /
+COPY casabot/rootfs/ /
 
 # Set permissions
 RUN \

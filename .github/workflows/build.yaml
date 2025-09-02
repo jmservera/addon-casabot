@@ -104,7 +104,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: ls casabot/rootfs
+      - run: ls /home/runner/work/addon-casabot/addon-casabot
 
       - name: Build ${{ matrix.addon }} add-on
         if: steps.check.outputs.build_arch == 'true'
