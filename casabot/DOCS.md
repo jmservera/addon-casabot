@@ -133,7 +133,7 @@ For developers wanting to modify the CasaBot application:
 
 ## Changelog
 
-### Version 0.1.5
+### Version 0.1.7
 
 - **NEW**: s6-overlay process management
 - **NEW**: nginx reverse proxy integration

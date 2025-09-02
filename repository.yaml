@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
 ---
 name: Casa Bot Home Assistant add-on repository
-url: 'https://github.com/jmservera/casa-bot'
-maintainer: Casa Bot Maintainer <casabot@servezas.org>
+url: 'https://github.com/jmservera/addon-casabot'
+maintainer: Casa Bot Maintainer <jmservera@users.noreply.github.com>
 license: MIT
