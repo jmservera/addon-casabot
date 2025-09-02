@@ -1,10 +1,8 @@
-ARG BUILD_FROM
-
-# Multi-arch build arguments
-ARG BUILD_ARCH
-
 # Build stage - use .NET SDK for compilation
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS builder
+ARG BUILD_FROM
+# Multi-arch build arguments
+ARG BUILD_ARCH
 
 WORKDIR /src
 
