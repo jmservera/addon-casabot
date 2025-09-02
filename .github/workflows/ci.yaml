@@ -129,6 +129,9 @@ jobs:
     strategy:
       matrix:
         architecture: ${{ fromJson(needs.information.outputs.architectures) }}
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v5
