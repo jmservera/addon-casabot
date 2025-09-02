@@ -35,7 +35,7 @@ FROM $BUILD_FROM
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup base system
-# ARG TEMPIO_VERSION="2021.09.0"
+# ARG TEMPIO_VERSION="2024.11.2"
 # RUN curl -L -s "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${TEMPIO_ARCH}" \
 #         -o /usr/bin/tempio \
 #     && chmod a+x /usr/bin/tempio
