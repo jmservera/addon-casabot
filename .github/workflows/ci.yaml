@@ -170,7 +170,7 @@ jobs:
       - name: 🚀 Build
         uses: docker/build-push-action@v6.18.0
         with:
-          push: false
+          push: true
           context: ${{ needs.information.outputs.target }}
           file: ${{ needs.information.outputs.target }}/Dockerfile
           cache-from: |
