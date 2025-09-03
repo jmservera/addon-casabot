@@ -1,0 +1,13 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Community Add-on: CasaBot
+# Configures CasaBot before running
+# ==============================================================================
+declare port
+
+# Migrate add-on data from the Home Assistant config folder,
+# to the add-on configuration folder.
+
+
+

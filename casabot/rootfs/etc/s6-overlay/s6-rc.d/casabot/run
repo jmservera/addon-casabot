@@ -1,0 +1,27 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Community Add-on: CasaBot
+# Starts CasaBot
+# ==============================================================================
+
+# Parse configuration options
+CONFIG_PATH="/data/options.json"
+
+if bashio::fs.file_exists "${CONFIG_PATH}"; then
+    bashio::log.info "Loading configuration from ${CONFIG_PATH}"
+    # Add any configuration parsing logic here
+else
+    bashio::log.info "No configuration file found at ${CONFIG_PATH}"
+fi
+
+bashio::log.info "Starting CasaBot application..."
+# Export any needed environment variables for the CasaBot application
+export ASPNETCORE_ENVIRONMENT=Production
+export ASPNETCORE_URLS="http://0.0.0.0:8000"
+
+# use polling watcher to avoid inotify limits
+export DOTNET_USE_POLLING_FILE_WATCHER=1
+
+cd /opt/casabot
+exec ./CasaBot

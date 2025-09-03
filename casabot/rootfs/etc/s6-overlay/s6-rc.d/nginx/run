@@ -1,0 +1,11 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Community Add-on: CasaBot
+# Runs the Nginx daemon
+# ==============================================================================
+
+bashio::log.info "Waiting for CasaBot to be ready..."
+bashio::net.wait_for 8000 localhost 300
+
+bashio::log.info "Starting NGinx..."
+exec nginx
