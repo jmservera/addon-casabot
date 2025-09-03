@@ -1,7 +1,45 @@
-ARG BUILD_FROM
+ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.21
+ARG BUILD_ARCH=amd64
+# Build stage - use .NET SDK for compilation
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS builder
+# Multi-arch build arguments
+ARG BUILD_ARCH
+
+WORKDIR /src
+
+# Copy source code
+COPY src/ ./
+
+
+# Build application with appropriate runtime identifier
+RUN case "${BUILD_ARCH}" in \
+      "amd64") \
+        dotnet publish -c Release -r linux-musl-x64 -o /app/publish \
+        ;; \
+      "aarch64") \
+        dotnet publish -c Release -r linux-musl-arm64 -o /app/publish \
+        ;; \
+      "armv7") \
+        dotnet publish -c Release -r linux-musl-arm -o /app/publish \
+        ;; \
+      *) \
+        echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1 \
+        ;; \
+    esac
+
+# Runtime stage
 FROM $BUILD_FROM
 
-# Install requirements for add-on
+# Set shell
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Setup base system
+# ARG TEMPIO_VERSION="2024.11.2"
+# RUN curl -L -s "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${TEMPIO_ARCH}" \
+#         -o /usr/bin/tempio \
+#     && chmod a+x /usr/bin/tempio
+
+# Install s6-overlay, nginx and .NET runtime
 RUN \
   apk add --no-cache \
     nginx \

@@ -2,9 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "casabot", "casabot", "{50366B7A-1088-0ABB-1E6D-EB082CD70D48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaBot", "src\casabot\CasaBot.csproj", "{FD54B37D-FEDA-D23F-D007-F0A03C454615}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaBot", "casabot\src\CasaBot.csproj", "{F6C649B7-7B1A-9ED5-F86F-CC55186B97CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,18 +12,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FD54B37D-FEDA-D23F-D007-F0A03C454615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD54B37D-FEDA-D23F-D007-F0A03C454615}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD54B37D-FEDA-D23F-D007-F0A03C454615}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD54B37D-FEDA-D23F-D007-F0A03C454615}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6C649B7-7B1A-9ED5-F86F-CC55186B97CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C649B7-7B1A-9ED5-F86F-CC55186B97CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C649B7-7B1A-9ED5-F86F-CC55186B97CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C649B7-7B1A-9ED5-F86F-CC55186B97CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FD54B37D-FEDA-D23F-D007-F0A03C454615} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{F6C649B7-7B1A-9ED5-F86F-CC55186B97CF} = {50366B7A-1088-0ABB-1E6D-EB082CD70D48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B445E9B5-4852-4320-BDA1-9FEE3CB4A89D}
+		SolutionGuid = {86B3B001-B49C-48B2-B058-3AB1155BA877}
 	EndGlobalSection
 EndGlobal
