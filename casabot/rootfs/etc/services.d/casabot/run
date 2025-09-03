@@ -8,5 +8,8 @@ sleep 2
 
 bashio::log.info "Starting CasaBot application..."
 
+# use polling watcher to avoid inotify limits
+export DOTNET_USE_POLLING_FILE_WATCHER=1
+
 cd /opt/casabot
 exec ./CasaBot --urls "http://0.0.0.0:8000"

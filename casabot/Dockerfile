@@ -1,5 +1,5 @@
-ARG BUILD_FROM
-ARG BUILD_ARCH
+ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.21
+ARG BUILD_ARCH=amd64
 # Build stage - use .NET SDK for compilation
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS builder
 # Multi-arch build arguments
