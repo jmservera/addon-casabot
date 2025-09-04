@@ -41,6 +41,7 @@
     <div class="chat-input-container">
         <div class="input-group">
             <input @bind="currentMessage" 
+                   @bind:event="oninput"
                    @onkeypress="HandleKeyPress" 
                    @ref="textInput"
                    class="message-input" 
