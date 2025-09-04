@@ -1,6 +1,6 @@
 name: "Casa Bot"
 description: "An LLM enabled bot to interact with Home Assitant's MCP server"
-version: "0.2.0"
+version: "v0.2.9"
 slug: "casabot"
 ingress: true
 auth_api: true
