@@ -39,12 +39,11 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 #         -o /usr/bin/tempio \
 #     && chmod a+x /usr/bin/tempio
 
-# Install s6-overlay, nginx and .NET runtime
+# Install nginx and .NET runtime
 RUN \
   apk add --no-cache \
     nginx \
     aspnetcore8-runtime \
-    s6-overlay \
   && rm -fr \
     /etc/nginx \
     /root/.cache \
