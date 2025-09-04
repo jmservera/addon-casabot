@@ -44,13 +44,19 @@ RUN \
   apk add --no-cache \
     nginx \
     aspnetcore8-runtime \
-    s6-overlay
+    s6-overlay \
+  && rm -fr \
+    /etc/nginx \
+    /root/.cache \
+    /root/.npm \
+    /root/.nrpmrc \
+    /tmp/*
 
-# Create nginx directories
-RUN \
-  mkdir -p /var/log/nginx \
-  && mkdir -p /var/lib/nginx/tmp \
-  && mkdir -p /run/nginx
+# # Create nginx directories
+# RUN \
+#   mkdir -p /var/log/nginx \
+#   && mkdir -p /var/lib/nginx/tmp \
+#   && mkdir -p /run/nginx
 
 # Copy CasaBot application
 COPY --from=builder /app/publish /opt/casabot/
