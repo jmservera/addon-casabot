@@ -21,10 +21,10 @@ public class McpService : IMcpService
         try
         {
             _logger.LogInformation("Initializing MCP connection");
-            
+
             // TODO: Initialize connection to Home Assistant MCP server
             // For now, this is a placeholder implementation
-            
+
             await Task.Delay(100);
             _logger.LogInformation("MCP connection initialized successfully");
         }
@@ -43,13 +43,13 @@ public class McpService : IMcpService
 
             // TODO: Implement actual MCP communication using the C# MCP SDK
             // For now, provide a mock response that simulates Home Assistant integration
-            
+
             var responses = GetMockResponses(message);
             var response = responses[Random.Shared.Next(responses.Length)];
-            
+
             // Simulate processing time
             await Task.Delay(Random.Shared.Next(500, 1500));
-            
+
             _logger.LogInformation("Received response from MCP server");
             return response;
         }
@@ -63,7 +63,7 @@ public class McpService : IMcpService
     private string[] GetMockResponses(string message)
     {
         var lowerMessage = message.ToLowerInvariant();
-        
+
         if (lowerMessage.Contains("light") || lowerMessage.Contains("lamp"))
         {
             return new[]
@@ -74,7 +74,7 @@ public class McpService : IMcpService
                 "The bedroom lights are off. Should I turn them on?"
             };
         }
-        
+
         if (lowerMessage.Contains("temperature") || lowerMessage.Contains("thermostat") || lowerMessage.Contains("heat") || lowerMessage.Contains("cool"))
         {
             return new[]
@@ -85,7 +85,7 @@ public class McpService : IMcpService
                 "Would you like me to increase or decrease the temperature?"
             };
         }
-        
+
         if (lowerMessage.Contains("door") || lowerMessage.Contains("lock") || lowerMessage.Contains("unlock"))
         {
             return new[]
@@ -96,7 +96,7 @@ public class McpService : IMcpService
                 "Security system shows all entry points are secure."
             };
         }
-        
+
         if (lowerMessage.Contains("music") || lowerMessage.Contains("play") || lowerMessage.Contains("song"))
         {
             return new[]
@@ -107,7 +107,7 @@ public class McpService : IMcpService
                 "I've paused the music in all rooms."
             };
         }
-        
+
         if (lowerMessage.Contains("weather"))
         {
             return new[]
@@ -118,7 +118,7 @@ public class McpService : IMcpService
                 "Cloudy with a chance of rain. Current temperature: 65°F."
             };
         }
-        
+
         if (lowerMessage.Contains("energy") || lowerMessage.Contains("power") || lowerMessage.Contains("usage"))
         {
             return new[]
@@ -129,7 +129,7 @@ public class McpService : IMcpService
                 "The washing machine is using 800W right now. It should finish in 45 minutes."
             };
         }
-        
+
         if (lowerMessage.Contains("hello") || lowerMessage.Contains("hi") || lowerMessage.Contains("hey"))
         {
             return new[]
@@ -140,7 +140,7 @@ public class McpService : IMcpService
                 "Welcome back! Your home status: All systems normal. How can I help you today?"
             };
         }
-        
+
         // Default responses for unrecognized input
         return new[]
         {

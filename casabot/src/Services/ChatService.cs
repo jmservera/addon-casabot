@@ -25,7 +25,7 @@ public class ChatService : IChatService
 
             // Send message to MCP server
             var mcpResponse = await _mcpService.SendMessageAsync(message);
-            
+
             // For now, return a simple response. In a real implementation,
             // you would process the MCP response and potentially generate audio
             var response = new ChatResponse
@@ -53,7 +53,7 @@ public class ChatService : IChatService
 
             // Convert audio to text (speech recognition)
             var transcribedText = await TranscribeAudioAsync(audioData);
-            
+
             if (string.IsNullOrEmpty(transcribedText))
             {
                 return new ChatResponse
@@ -64,7 +64,7 @@ public class ChatService : IChatService
 
             // Send transcribed text to MCP server
             var mcpResponse = await _mcpService.SendMessageAsync(transcribedText);
-            
+
             // Convert response to audio (text-to-speech)
             var audioUrl = await GenerateAudioResponseAsync(mcpResponse);
 
