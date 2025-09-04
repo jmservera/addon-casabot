@@ -51,6 +51,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
           branch: update-addon-${{ github.event.client_payload.release_tag }}
           title: "Update add-on version to ${{ github.event.client_payload.release_tag }}"
           body: "Automated PR to update add-on version after upstream release."
