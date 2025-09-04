@@ -1,0 +1,46 @@
+name: Update Add-on Version
+
+on:
+  repository_dispatch:
+    types: [casabot-release]
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code
+        uses: actions/checkout@v5
+
+      - name: 🏷️ Get release version
+        run: echo "RELEASE_VERSION=${{ github.event.client_payload.release_tag }}" >> $GITHUB_ENV
+
+      - name: 🏷️ Create branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b update-addon-${RELEASE_VERSION}
+
+      - name: 📝 Update config.yaml
+        run: |
+          sed -i "s/^version: .*/version: \"${RELEASE_VERSION}\"/" casabot/config.yaml
+
+      # Add similar steps for build.yaml or other files if needed
+
+      - name: 💾 Commit changes
+        run: |
+          git add casabot/config.yaml
+          git commit -m "Update add-on version to ${RELEASE_VERSION}"
+
+      - name: 🚀 Push branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push origin update-addon-${RELEASE_VERSION}
+
+      - name: 🔀 Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: update-addon-${RELEASE_VERSION}
+          title: "Update add-on version to ${RELEASE_VERSION}"
+          body: "Automated PR to update add-on version after upstream release."
