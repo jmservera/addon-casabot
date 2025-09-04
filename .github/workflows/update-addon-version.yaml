@@ -17,6 +17,13 @@ jobs:
       - name: 🏷️ Get release version
         run: echo "RELEASE_VERSION=${{ github.event.client_payload.release_tag }}" >> $GITHUB_ENV
 
+      - name: ✅ Validate release version
+        run: |
+          if [ -z "${RELEASE_VERSION}" ]; then
+            echo "::error title=Missing release version::Empty or missing client_payload.release_tag. Aborting workflow." 
+            exit 1
+          fi
+
       - name: 🏷️ Create branch
         run: |
           git config user.name "github-actions[bot]"
