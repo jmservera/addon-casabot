@@ -1,49 +1,18 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.21
 ARG BUILD_ARCH=amd64
-# Build stage - use .NET SDK for compilation
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS builder
-# Multi-arch build arguments
-ARG BUILD_ARCH
 
-WORKDIR /src
-
-# Copy source code
-COPY src/ ./
-
-
-# Build application with appropriate runtime identifier
-RUN case "${BUILD_ARCH}" in \
-      "amd64") \
-        dotnet publish -c Release -r linux-musl-x64 -o /app/publish \
-        ;; \
-      "aarch64") \
-        dotnet publish -c Release -r linux-musl-arm64 -o /app/publish \
-        ;; \
-      "armv7") \
-        dotnet publish -c Release -r linux-musl-arm -o /app/publish \
-        ;; \
-      *) \
-        echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1 \
-        ;; \
-    esac
-
-# Runtime stage
+# Runtime stage - no build stage needed, use pre-built packages
 FROM $BUILD_FROM
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Setup base system
-# ARG TEMPIO_VERSION="2024.11.2"
-# RUN curl -L -s "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${TEMPIO_ARCH}" \
-#         -o /usr/bin/tempio \
-#     && chmod a+x /usr/bin/tempio
-
-# Install nginx and .NET runtime
+# Install .NET runtime only (no SDK needed)
 RUN \
   apk add --no-cache \
     nginx \
     aspnetcore8-runtime \
+    curl \
   && rm -fr \
     /etc/nginx \
     /root/.cache \
@@ -51,11 +20,37 @@ RUN \
     /root/.nrpmrc \
     /tmp/*
 
-# # Create nginx directories
-# RUN \
-#   mkdir -p /var/log/nginx \
-#   && mkdir -p /var/lib/nginx/tmp \
-#   && mkdir -p /run/nginx
+# Download pre-built CasaBot application from releases
+ARG BUILD_ARCH
+ARG CASABOT_VERSION="0.1.0"
+ARG CASABOT_REPO="jmservera/casabot"
+
+RUN \
+    mkdir -p /opt/casabot && \
+    case "${BUILD_ARCH}" in \
+      "amd64") \
+        ASSET_NAME="casabot-amd64.tar.gz" \
+        ;; \
+      "aarch64") \
+        ASSET_NAME="casabot-aarch64.tar.gz" \
+        ;; \
+      "armv7") \
+        ASSET_NAME="casabot-armv7.tar.gz" \
+        ;; \
+      *) \
+        echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1 \
+        ;; \
+    esac && \
+    if [ "${CASABOT_VERSION}" = "latest" ]; then \
+      DOWNLOAD_URL=$(curl -s https://api.github.com/repos/${CASABOT_REPO}/releases/latest | \
+        grep "browser_download_url.*${ASSET_NAME}" | \
+        cut -d '"' -f 4); \
+    else \
+      DOWNLOAD_URL="https://github.com/${CASABOT_REPO}/releases/download/v${CASABOT_VERSION}/${ASSET_NAME}"; \
+    fi && \
+    echo "Downloading from: ${DOWNLOAD_URL}" && \
+    curl -L "${DOWNLOAD_URL}" | tar -xz -C /opt/casabot && \
+    chmod +x /opt/casabot/CasaBot
 
 # Copy CasaBot application
 COPY --from=builder /app/publish /opt/casabot/
@@ -65,15 +60,8 @@ COPY rootfs/ /
 
 HEALTHCHECK --start-period=10m \
     CMD curl --fail http://127.0.0.1:8000 || exit 1
-# Set permissions
-# RUN \
-#   chmod a+x /etc/services.d/casabot/run \
-#   && chmod a+x /etc/services.d/casabot/finish \
-#   && chmod a+x /etc/services.d/nginx/run \
-#   && chmod a+x /etc/services.d/nginx/finish \
-#   && chmod a+x /run.sh
 
-# Build arguments
+# Build arguments for labels
 ARG BUILD_ARCH
 ARG BUILD_DATE
 ARG BUILD_DESCRIPTION
