@@ -52,9 +52,6 @@ RUN \
     curl -L "${DOWNLOAD_URL}" | tar -xz -C /opt/casabot && \
     chmod +x /opt/casabot/CasaBot
 
-# Copy CasaBot application
-COPY --from=builder /app/publish /opt/casabot/
-
 # Copy nginx configuration and s6 services
 COPY rootfs/ /
 
