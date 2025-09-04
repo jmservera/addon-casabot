@@ -1,0 +1,15 @@
+bin/
+obj/
+publish/
+*.user
+*.suo
+*.cache
+*.log
+.vs/
+.vscode/
+.DS_Store
+node_modules/
+wwwroot/lib/
+*.swp
+*.tmp
+*~
