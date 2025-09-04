@@ -29,10 +29,10 @@ jobs:
           sed -i "s/^version: .*/version: \"${RELEASE_VERSION}\"/" casabot/config.yaml
 
       - name: 🔀 Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: main
+          commit-message: "Update add-on version to ${{ github.event.client_payload.release_tag }}"
           branch: update-addon-${{ github.event.client_payload.release_tag }}
           title: "Update add-on version to ${{ github.event.client_payload.release_tag }}"
           body: "Automated PR to update add-on version after upstream release."
