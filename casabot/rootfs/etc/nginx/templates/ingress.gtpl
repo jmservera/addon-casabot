@@ -9,5 +9,6 @@ server {
         deny    all;
 
         proxy_pass http://backend;
+        health_check uri=/health;
     }
 }
