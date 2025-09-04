@@ -22,7 +22,7 @@ RUN \
 
 # Download pre-built CasaBot application from releases
 ARG BUILD_ARCH
-ARG CASABOT_VERSION="0.1.0"
+ARG CASABOT_VERSION
 ARG CASABOT_REPO="jmservera/casabot"
 
 RUN \
