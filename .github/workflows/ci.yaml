@@ -44,32 +44,32 @@ jobs:
           fi
           echo "slug=$slug" >> "$GITHUB_OUTPUT"
 
-  # lint-addon:
-  #   name: Lint Add-on
-  #   needs:
-  #     - information
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: ⤵️ Check out code from GitHub
-  #       uses: actions/checkout@v5
-  #     - name: 🚀 Run Add-on Lint
-  #       uses: frenck/action-addon-linter@v2.18.0
-  #       with:
-  #         community: true
-  #         path: "./${{ needs.information.outputs.target }}"
+  lint-addon:
+    name: Lint Add-on
+    needs:
+      - information
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v5
+      - name: 🚀 Run Add-on Lint
+        uses: frenck/action-addon-linter@v2.18.0
+        with:
+          community: true
+          path: "./${{ needs.information.outputs.target }}"
 
-  # lint-hadolint:
-  #   name: Hadolint
-  #   needs:
-  #     - information
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: ⤵️ Check out code from GitHub
-  #       uses: actions/checkout@v5
-  #     - name: 🚀 Run Hadolint
-  #       uses: brpaz/hadolint-action@v1.5.0
-  #       with:
-  #         dockerfile: "./${{ needs.information.outputs.target }}/Dockerfile"
+  lint-hadolint:
+    name: Hadolint
+    needs:
+      - information
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v5
+      - name: 🚀 Run Hadolint
+        uses: brpaz/hadolint-action@v1.5.0
+        with:
+          dockerfile: "./${{ needs.information.outputs.target }}/Dockerfile"
 
   lint-json:
     name: JSON Lint
@@ -82,38 +82,16 @@ jobs:
           shopt -s globstar
           cat **/*.json | jq '.'
 
-  # lint-shellcheck:
-  #   name: Shellcheck
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: ⤵️ Check out code from GitHub
-  #       uses: actions/checkout@v5
-  #     - name: 🚀 Run Shellcheck
-  #       uses: ludeeus/action-shellcheck@2.0.0
-  #       env:
-  #         SHELLCHECK_OPTS: -s bash
-
-  lint-yamllint:
-    name: YAMLLint
+  lint-shellcheck:
+    name: Shellcheck
     runs-on: ubuntu-latest
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v5
-      - name: 🚀 Run YAMLLint
-        uses: frenck/action-yamllint@v1.5
-
-  lint-prettier:
-    name: Prettier
-    runs-on: ubuntu-latest
-    steps:
-      - name: ⤵️ Check out code from GitHub
-        uses: actions/checkout@v5
-      - name: 🚀 Run Prettier
-        uses: creyD/prettier_action@v4.6
-        with:
-          prettier_options: --write **/*.{json,js,md,yaml}
+      - name: 🚀 Run Shellcheck
+        uses: ludeeus/action-shellcheck@2.0.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHELLCHECK_OPTS: -s bash
 
   build:
     name: Build ${{ matrix.architecture }}
@@ -121,7 +99,7 @@ jobs:
       - information
       # - lint-addon
       # - lint-hadolint
-      # - lint-json
+      - lint-json
       # - lint-prettier
       # - lint-shellcheck
       # - lint-yamllint
