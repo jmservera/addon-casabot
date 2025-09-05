@@ -74,11 +74,11 @@ LABEL \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version=${BUILD_VERSION} \
-    maintainer="Juanma <jmservera@users.noreply.github.com>" \
+    maintainer="Juanma <8036360+jmservera@users.noreply.github.com>" \
     org.opencontainers.image.title="${BUILD_NAME}" \
     org.opencontainers.image.description="${BUILD_DESCRIPTION}" \
     org.opencontainers.image.vendor="Home Assistant Community Add-ons" \
-    org.opencontainers.image.authors="Juanma <jmservera@users.noreply.github.com>" \
+    org.opencontainers.image.authors="Juanma <8036360+jmservera@users.noreply.github.com>" \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.url="https://addons.community" \
     org.opencontainers.image.source="https://github.com/${BUILD_REPOSITORY}" \
