@@ -181,12 +181,7 @@ jobs:
             BUILD_REPOSITORY=${{ github.repository }}
             BUILD_VERSION=${{ needs.information.outputs.version }}
             CASABOT_VERSION=${{ steps.flags.outputs.casabot_version }}
-          annotations: |
-            org.opencontainers.image.title="Home Assistant Add-on: ${{ needs.information.outputs.name }}"
-            org.opencontainers.image.description="${{ needs.information.outputs.description }}"
-            org.opencontainers.image.vendor="Home Assistant Community Add-ons"
-            org.opencontainers.image.authors="Juanma <8036360+jmservera@users.noreply.github.com>"
-            org.opencontainers.image.licenses="MIT"
+          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description="${{ needs.information.outputs.description }}"
       # This ugly bit is necessary, or our cache will grow forever...
       # Well until we hit GitHub's limit of 5GB :)
       # https://github.com/docker/build-push-action/issues/252
