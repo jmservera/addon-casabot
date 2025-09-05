@@ -14,12 +14,14 @@ The CasaBot project has been restructured into two separate repositories:
 ### CasaBot Repository (jmservera/casabot)
 
 This repository contains the .NET Blazor Server application source code and is responsible for:
+
 - Building the CasaBot application for multiple architectures
 - Creating distribution packages (tar.gz files)
 - Publishing releases with versioned packages
 - Managing application-specific documentation and changelog
 
 **Key Files:**
+
 - `src/` - .NET Blazor application source code
 - `.github/workflows/build.yml` - Multi-architecture build pipeline
 - `README.md` - Application documentation
@@ -28,12 +30,14 @@ This repository contains the .NET Blazor Server application source code and is r
 ### Add-on Repository (jmservera/addon-casabot)
 
 This repository contains the Home Assistant add-on configuration and is responsible for:
+
 - Home Assistant add-on metadata and configuration
 - Docker container setup and service configuration
 - Downloading and integrating pre-built CasaBot packages
 - Add-on specific documentation
 
 **Key Files:**
+
 - `casabot/config.yaml` - Home Assistant add-on configuration
 - `casabot/Dockerfile` - Downloads pre-built packages instead of building from source
 - `casabot/rootfs/` - Container configuration files (nginx, s6-overlay)
@@ -47,7 +51,7 @@ This repository contains the Home Assistant add-on configuration and is responsi
 graph TD
     A[Developer commits code] --> B[GitHub Actions triggered]
     B --> C[Build for amd64]
-    B --> D[Build for aarch64] 
+    B --> D[Build for aarch64]
     B --> E[Build for armv7]
     C --> F[Create package tar.gz]
     D --> G[Create package tar.gz]
@@ -94,8 +98,9 @@ RUN \
 ### Architecture Support
 
 Both repositories support the same three architectures:
+
 - **amd64** (x86_64) - Intel/AMD 64-bit
-- **aarch64** (ARM64) - ARM 64-bit  
+- **aarch64** (ARM64) - ARM 64-bit
 - **armv7** (ARM32) - ARM 32-bit
 
 ## Development Workflow
@@ -128,18 +133,21 @@ To update the CasaBot version used by the add-on:
 ## Benefits of This Architecture
 
 ### Development Benefits
+
 - **Separation of Concerns**: App developers can work independently from add-on maintainers
 - **Faster Iteration**: Application changes don't require full add-on rebuild
 - **Better Testing**: Dedicated CI/CD pipelines for each component
 - **Independent Versioning**: Applications and add-ons can be versioned separately
 
 ### Build Benefits
+
 - **Faster Add-on Builds**: No compilation during Docker build, just download and extract
 - **Better Caching**: Pre-built packages can be cached and reused
 - **Reduced Complexity**: Add-on build focuses on integration, not compilation
 - **Multi-arch Consistency**: Same packages used across all architectures
 
 ### Maintenance Benefits
+
 - **Clear Responsibility**: Issues can be routed to appropriate repository
 - **Easier Debugging**: Application vs add-on issues are clearly separated
 - **Version Tracking**: Easy to see which application version is in each add-on release

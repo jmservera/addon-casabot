@@ -24,7 +24,7 @@ The add-on uses a modern containerized architecture with separated build process
 
 - **Package-based Build**: Uses pre-built CasaBot packages from the [casabot repository](https://github.com/jmservera/casabot)
 - **s6-overlay**: Process supervision and service management
-- **nginx**: Reverse proxy for secure and efficient request handling  
+- **nginx**: Reverse proxy for secure and efficient request handling
 - **CasaBot**: .NET 8 Blazor Server application (downloaded as pre-built package)
 - **MCP Integration**: Direct communication with Home Assistant's MCP server
 
@@ -36,6 +36,7 @@ This add-on now uses a two-stage build process:
 2. **Add-on Container**: Downloads and integrates pre-built packages into the Home Assistant add-on
 
 ### Benefits
+
 - **Faster Builds**: No need to compile .NET application during add-on build
 - **Better Caching**: Pre-built packages reduce build times
 - **Independent Development**: Application and add-on can be developed separately
@@ -51,6 +52,7 @@ This add-on now uses a two-stage build process:
 For application development, see the [casabot repository](https://github.com/jmservera/casabot).
 
 For add-on development:
+
 1. Clone this repository
 2. Make changes to add-on configuration
 3. Test with Home Assistant development environment
@@ -58,5 +60,6 @@ For add-on development:
 ## Support
 
 For issues, feature requests, and contributions, please visit:
+
 - **Add-on Issues**: [addon-casabot repository](https://github.com/jmservera/addon-casabot)
 - **Application Issues**: [casabot repository](https://github.com/jmservera/casabot)

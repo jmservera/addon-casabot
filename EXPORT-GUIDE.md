@@ -46,6 +46,7 @@ casabot/
 ## Files to Copy from addon-casabot
 
 ### Source Code (from casabot/src/)
+
 All files in the `casabot/src/` directory should be copied to `src/` in the new repository:
 
 - `CasaBot.csproj` - Project file
@@ -59,30 +60,33 @@ All files in the `casabot/src/` directory should be copied to `src/` in the new 
 - `wwwroot/` - Static web assets
 
 ### License and Documentation
+
 - `LICENSE` - MIT license file
 - Create new `README.md` - Application-specific documentation
 - Create new `CHANGELOG.md` - Application version history
 
 ### Build Configuration
+
 - Create `.github/workflows/build.yml` - Multi-architecture build pipeline
 - Create `.gitignore` - Standard .NET gitignore
 
 ## Files to Create in CasaBot Repository
 
 ### New GitHub Actions Workflow (.github/workflows/build.yml)
+
 ```yaml
 name: Build and Release
 
 on:
   push:
     branches: [main]
-    tags: ['v*']
+    tags: ["v*"]
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 env:
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: "8.0.x"
   BUILD_CONFIGURATION: Release
 
 jobs:
@@ -100,41 +104,41 @@ jobs:
             runtime: linux-musl-arm
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-    
-    - name: Restore dependencies
-      run: dotnet restore src/CasaBot.csproj
-    
-    - name: Build
-      run: dotnet build src/CasaBot.csproj --no-restore --configuration ${{ env.BUILD_CONFIGURATION }}
-    
-    - name: Publish
-      run: |
-        dotnet publish src/CasaBot.csproj \
-          --configuration ${{ env.BUILD_CONFIGURATION }} \
-          --runtime ${{ matrix.runtime }} \
-          --self-contained true \
-          --output ./publish/${{ matrix.arch }}
-    
-    - name: Create package
-      run: |
-        cd ./publish/${{ matrix.arch }}
-        tar -czf ../casabot-${{ matrix.arch }}.tar.gz .
-        cd ..
-        sha256sum casabot-${{ matrix.arch }}.tar.gz > casabot-${{ matrix.arch }}.tar.gz.sha256
-    
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: casabot-${{ matrix.arch }}
-        path: |
-          ./publish/casabot-${{ matrix.arch }}.tar.gz
-          ./publish/casabot-${{ matrix.arch }}.tar.gz.sha256
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore src/CasaBot.csproj
+
+      - name: Build
+        run: dotnet build src/CasaBot.csproj --no-restore --configuration ${{ env.BUILD_CONFIGURATION }}
+
+      - name: Publish
+        run: |
+          dotnet publish src/CasaBot.csproj \
+            --configuration ${{ env.BUILD_CONFIGURATION }} \
+            --runtime ${{ matrix.runtime }} \
+            --self-contained true \
+            --output ./publish/${{ matrix.arch }}
+
+      - name: Create package
+        run: |
+          cd ./publish/${{ matrix.arch }}
+          tar -czf ../casabot-${{ matrix.arch }}.tar.gz .
+          cd ..
+          sha256sum casabot-${{ matrix.arch }}.tar.gz > casabot-${{ matrix.arch }}.tar.gz.sha256
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: casabot-${{ matrix.arch }}
+          path: |
+            ./publish/casabot-${{ matrix.arch }}.tar.gz
+            ./publish/casabot-${{ matrix.arch }}.tar.gz.sha256
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -144,28 +148,29 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: ./artifacts
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
 
-    - name: Prepare release assets
-      run: |
-        mkdir -p ./release-assets
-        find ./artifacts -name "*.tar.gz*" -exec cp {} ./release-assets/ \;
+      - name: Prepare release assets
+        run: |
+          mkdir -p ./release-assets
+          find ./artifacts -name "*.tar.gz*" -exec cp {} ./release-assets/ \;
 
-    - name: Create Release
-      uses: softprops/action-gh-release@v2
-      with:
-        files: ./release-assets/*
-        draft: false
-        prerelease: false
-        generate_release_notes: true
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./release-assets/*
+          draft: false
+          prerelease: false
+          generate_release_notes: true
 ```
 
 ### .gitignore
+
 ```
 bin/
 obj/

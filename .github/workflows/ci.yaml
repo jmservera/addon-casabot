@@ -71,16 +71,16 @@ jobs:
   #       with:
   #         dockerfile: "./${{ needs.information.outputs.target }}/Dockerfile"
 
-  # lint-json:
-  #   name: JSON Lint
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: ⤵️ Check out code from GitHub
-  #       uses: actions/checkout@v5
-  #     - name: 🚀 Run JQ
-  #       run: |
-  #         shopt -s globstar
-  #         cat **/*.json | jq '.'
+  lint-json:
+    name: JSON Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v5
+      - name: 🚀 Run JQ
+        run: |
+          shopt -s globstar
+          cat **/*.json | jq '.'
 
   # lint-shellcheck:
   #   name: Shellcheck
@@ -93,27 +93,27 @@ jobs:
   #       env:
   #         SHELLCHECK_OPTS: -s bash
 
-  # lint-yamllint:
-  #   name: YAMLLint
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: ⤵️ Check out code from GitHub
-  #       uses: actions/checkout@v5
-  #     - name: 🚀 Run YAMLLint
-  #       uses: frenck/action-yamllint@v1.5
+  lint-yamllint:
+    name: YAMLLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v5
+      - name: 🚀 Run YAMLLint
+        uses: frenck/action-yamllint@v1.5
 
-  # lint-prettier:
-  #   name: Prettier
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: ⤵️ Check out code from GitHub
-  #       uses: actions/checkout@v5
-  #     - name: 🚀 Run Prettier
-  #       uses: creyD/prettier_action@v4.6
-  #       with:
-  #         prettier_options: --write **/*.{json,js,md,yaml}
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  lint-prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v5
+      - name: 🚀 Run Prettier
+        uses: creyD/prettier_action@v4.6
+        with:
+          prettier_options: --write **/*.{json,js,md,yaml}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     name: Build ${{ matrix.architecture }}
@@ -203,6 +203,12 @@ jobs:
             BUILD_REPOSITORY=${{ github.repository }}
             BUILD_VERSION=${{ needs.information.outputs.version }}
             CASABOT_VERSION=${{ steps.flags.outputs.casabot_version }}
+          annotations: |
+            org.opencontainers.image.title="Home Assistant Add-on: ${{ needs.information.outputs.name }}"
+            org.opencontainers.image.description="${{ needs.information.outputs.description }}"
+            org.opencontainers.image.vendor="Home Assistant Community Add-ons"
+            org.opencontainers.image.authors="Juanma <8036360+jmservera@users.noreply.github.com>"
+            org.opencontainers.image.licenses="MIT"
       # This ugly bit is necessary, or our cache will grow forever...
       # Well until we hit GitHub's limit of 5GB :)
       # https://github.com/docker/build-push-action/issues/252

@@ -10,9 +10,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # Install .NET runtime only (no SDK needed)
 RUN \
   apk add --no-cache \
-    nginx \
-    aspnetcore8-runtime \
-    curl \
+    nginx=1.26.3-r0 \
+    aspnetcore8-runtime=8.0.16-r0 \
+    curl=8.12.1-r1 \
   && rm -fr \
     /etc/nginx \
     /root/.cache \
