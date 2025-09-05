@@ -27,6 +27,8 @@ jobs:
       - name: 📝 Update config.yaml
         run: |
           sed -i "s/^version: .*/version: \"${RELEASE_VERSION}\"/" casabot/config.yaml
+          # update build.yaml
+          sed -i "s/^\(\s*CASABOT_VERSION:\s*\).*/\1\"${RELEASE_VERSION}\"/" casabot/build.yaml
 
       - name: 🔀 Create Pull Request
         uses: peter-evans/create-pull-request@v7

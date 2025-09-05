@@ -46,7 +46,7 @@ RUN \
         grep "browser_download_url.*${ASSET_NAME}" | \
         cut -d '"' -f 4); \
     else \
-      DOWNLOAD_URL="https://github.com/${CASABOT_REPO}/releases/download/v${CASABOT_VERSION}/${ASSET_NAME}"; \
+      DOWNLOAD_URL="https://github.com/${CASABOT_REPO}/releases/download/${CASABOT_VERSION}/${ASSET_NAME}"; \
     fi && \
     echo "Downloading from: ${DOWNLOAD_URL}" && \
     curl -L "${DOWNLOAD_URL}" | tar -xz -C /opt/casabot && \
