@@ -1,7 +1,7 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.21
 ARG BUILD_ARCH=amd64
 
-# Runtime stage - no build stage needed, use pre-built packages
+# hadolint ignore=DL3006
 FROM $BUILD_FROM
 
 # Set shell

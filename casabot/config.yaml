@@ -9,7 +9,7 @@ panel_title: "Casa Bot"
 homeassistant_api: true
 init: false
 map:
-  - config:rw
+  - homeassistant_config:rw
   - share:rw
 arch:
   - aarch64
